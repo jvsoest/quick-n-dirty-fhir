@@ -1,0 +1,35 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=hapi_fhir
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      - 'PGADMIN_DEFAULT_EMAIL=hapi-fhir@maastro.nl'
+      - 'PGADMIN_DEFAULT_PASSWORD=postgres'
+      - 'PGADMIN_CONFIG_ENHANCED_COOKIE_PROTECTION=True'
+      - 'PGADMIN_LISTEN_PORT=8083'
+    ports:
+        - "8083:8083"
+    links:
+      - "postgres"
+  web:
+    image: hapiproject/hapi
+    ports:
+      - "8082:8080"
+    links:
+      - "postgres"
+    volumes:
+      - hapi-data:/data/hapi
+      - ./application.yaml:/application.yaml
+    environment:
+      - 'SPRING_CONFIG_LOCATION=file:///application.yaml'
+volumes:
+  hapi-data:
+  postgres_data:

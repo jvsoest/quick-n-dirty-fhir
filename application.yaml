@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: 'jdbc:postgresql://postgres:5432/hapi_fhir'
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
+  batch:
+    job:
+      enabled: false
+hapi:
+  fhir:
+    fhir_version: R4
+    tester:
+      home:
+        name: Local Tester
+        server_address: 'http://nuc10.fritz.box:8082/fhir'
+        refuse_to_fetch_third_party_urls: false
+        fhir_version: R4
